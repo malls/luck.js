@@ -74,6 +74,18 @@ var Ω = function(selector){
 		return Ω;
 	},
 
+	duplicate: function(){
+		var me2 = document.createElement(me.nodeName);
+		me2.prototype = me.prototype;
+		me2.style = me.style;
+		me2.src = me.src;
+		me2.class = me.class;
+		me2.id = me.id + "_dupe";
+		me.parentNode.appendChild(me2);
+		me = me2;
+		return Ω;
+	},
+
 	noBg:  function(){
 		if(me.style.display !== "none"){
 			var can = document.createElement("canvas");
