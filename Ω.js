@@ -64,6 +64,16 @@ var Ω = function(selector){
 		}
 	},
 
+	noClass: function(){
+		me.className = "";
+		return Ω;
+	},
+
+	destroy: function(){
+		me.parentNode.removeChild(me);
+		return Ω;
+	},
+
 	noBg:  function(){
 		if(me.style.display !== "none"){
 			var can = document.createElement("canvas");
