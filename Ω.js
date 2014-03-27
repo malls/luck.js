@@ -22,6 +22,7 @@ var Ω = function(selector){
 				letters.splice(0,1);
 				selector = letters.join('');
 				me = document.getElementsByClassName(selector);
+				console.log(me);
 			}else if( letters[0] === "#" ){
 				letters.splice(0,1);
 				selector = letters.join('');
@@ -86,7 +87,7 @@ var Ω = function(selector){
 		return Ω;
 	},
 
-	noBg:  function(){
+	noWhiteBg:  function(){
 		if(me.style.display !== "none"){
 			var can = document.createElement("canvas");
 			can.height = me.height;
@@ -109,16 +110,16 @@ var Ω = function(selector){
 
 	        can.putImageData(data, 0, 0);
 	        Ω.hide(me);
-	    	}
-	    },
+	        //apologies to @whtebkgrnd
+	    }
+	},
 
-    showBg: function(){
+    showWhiteBg: function(){
     	var canvasName = me.id + "_nobg";
     	var can = document.getElementById(canvasName);
     	me.style.cssText = can.style.cssText;
     	can.parentNode.removeChild(can);
     	Ω.show(me);
-
     }
 	
 }
