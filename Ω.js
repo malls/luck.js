@@ -22,7 +22,6 @@ var Ω = function(selector){
 				letters.splice(0,1);
 				selector = letters.join('');
 				me = document.getElementsByClassName(selector);
-				console.log(me);
 			}else if( letters[0] === "#" ){
 				letters.splice(0,1);
 				selector = letters.join('');
@@ -35,24 +34,55 @@ var Ω = function(selector){
 		}
 		return Ω;
 	},
+
+	eachDo: function(fn){
+		for( var i = 0; i < me.length; i++ ){
+			fn(me[i]);
+		}
+		return Ω;
+	},
 	
 	hide: function(){
-		me.style.display = "none";
+		if( me[0] === undefined){
+			me.style.display = "none";
+		}else{
+			for( i = 0; i < me.length; i++ ){
+				me[i].style.display = "none";
+			}
+		};
 		return Ω;
 	},
 
 	show: function(){
-		me.style.display = "";
+		if( me[0] === undefined){
+			me.style.display = "";
+		}else{
+			for( i = 0; i < me.length; i++ ){
+			me[i].style.display = "";
+			}
+		};
 		return Ω;
 	},
 
 	toggleDisplay: function(){
-		if( me.style.display != "none" ){
-			me.style.display = "none";
+		if( me[0] === undefined){
+			if( me.style.display != "none" ){
+				me.style.display = "none";
+				return Ω;
+			}else{
+				me.style.display = "";
+				return Ω;
+			}
 		}else{
-			me.style.display = "";
-		}
+			for( i = 0; i < me.length; i++ ){
+			 	if( me[i].style.display != "none" ){
 
+					me[i].style.display = "none";
+				}else{
+					me[i].style.display = "";
+				}
+			}
+		}
 		return Ω;
 	},
 
@@ -71,10 +101,17 @@ var Ω = function(selector){
 	},
 
 	destroy: function(){
+		if( me[0] === undefined){
+		}
 		me.parentNode.removeChild(me);
 		return Ω;
 	},
 
+	obj: function(){
+		return me;
+	},
+
+	//make each
 	duplicate: function(){
 		var me2 = document.createElement(me.nodeName);
 		me2.prototype = me.prototype;
@@ -87,6 +124,7 @@ var Ω = function(selector){
 		return Ω;
 	},
 
+	//make each
 	noWhiteBg:  function(){
 		if(me.style.display !== "none"){
 			var can = document.createElement("canvas");
@@ -114,14 +152,22 @@ var Ω = function(selector){
 	    }
 	},
 
+	//mashing
     showWhiteBg: function(){
     	var canvasName = me.id + "_nobg";
     	var can = document.getElementById(canvasName);
     	me.style.cssText = can.style.cssText;
     	can.parentNode.removeChild(can);
     	Ω.show(me);
+
     }
-	
-}
+    	
+};
+
+Object.prototype.each = function (fn){
+	for( i = 0; i < this.length; i++ ){
+		fn(this[i]);
+	}
+};
 
 var me = Ω.prototype.obj;
