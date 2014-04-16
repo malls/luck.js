@@ -1,5 +1,3 @@
-//ensure dom ready with Ω().onload = (function(){ YOUR PAGE JS HERE });
-
 var Ω = function(selector){
 	if( selector === undefined ){
 		return window;
@@ -29,6 +27,10 @@ var Ω = function(selector){
 				me = document.getElementById(selector);
 			}else if( selector === document ){
 				return document;
+			}else if( selector === 'body' ){
+				me = document.getElementsByTagName('body')[0];
+			}else if( selector === 'html' ){
+				me = document.getElementsByTagName('html')[0];
 			}else{
 				me = document.getElementsByTagName(selector);
 			}
@@ -37,6 +39,12 @@ var Ω = function(selector){
 	},
 
 	//event listeners
+
+	on: function(type, fn){
+		me['on' + type] = function(){
+			fn();
+		};
+	},
 
 	click: function(fn){
 		me.onclick = function(){
@@ -52,15 +60,14 @@ var Ω = function(selector){
 		return Ω;
 	},
 
-
-	ondrag: function(fn){
+	drag: function(fn){
 		me.ondrag = function(){
 			fn();
 		};
 		return Ω;
 	},
 
-	ondragover: function(fn){
+	dragover: function(fn){
 		me.ondragover = function(){
 			fn();
 		};
@@ -74,14 +81,14 @@ var Ω = function(selector){
 		me.style.position = "absolute";
 		me.ondrag = function(e){
 			e.preventDefault();
+			var xpos = e.x - 15;
+			var ypos = e.y - 15;
+			me.style.left = Math.ceil(xpos) + "px";
+			me.style.top = Math.ceil(ypos) + "px";
 			me.ondragover = function(e){
 				e.preventDefault();
-			}
-			var xpos = e.x + "px";
-			var ypos = e.y + "px";
-			me.style.left = xpos;
-			me.style.top = ypos;
-		}
+			};
+		};
 		return Ω;
 	},
 
@@ -99,7 +106,7 @@ var Ω = function(selector){
 			for( i = 0; i < me.length; i++ ){
 				me[i].style.display = "none";
 			}
-		};
+		}
 		return Ω;
 	},
 
@@ -110,7 +117,18 @@ var Ω = function(selector){
 			for( i = 0; i < me.length; i++ ){
 			me[i].style.display = "";
 			}
-		};
+		}
+		return Ω;
+	},
+
+	setBackground: function(input){
+		if(input instanceof Array){
+			for(var i = 0; i < input.length; i++){
+				me[i].style.background = input;
+			}
+		} else {
+		me.style.background = input;
+		}
 		return Ω;
 	},
 
@@ -136,6 +154,7 @@ var Ω = function(selector){
 		return Ω;
 	},
 
+//doesn't work?
 	itsClass: function(x){
 		if(x === undefined){
 			return me.className;
@@ -155,7 +174,7 @@ var Ω = function(selector){
 		return Ω;
 	},
 
-	obj: function(){
+	thisObj: function(){
 		return me;
 	},
 
@@ -173,7 +192,8 @@ var Ω = function(selector){
 	},
 
 	//make each
-	noWhiteBg:  function(){
+	noWhite:  function(){
+		me.crossOrigin = 'anonymous';
 		if(me.style.display !== "none"){
 			var can = document.createElement("canvas");
 			can.height = me.height;
@@ -192,31 +212,87 @@ var Ω = function(selector){
       	} else if ( data.data[i] + data.data[ i + 1 ] + data.data[ i + 2 ] > 550 ){
       		data.data[ i + 3 ] = 200;
       	}
-      };
+      }
 
       can.putImageData(data, 0, 0);
-      Ω.hide(me);
-      //apologies to @whtebkgrnd
-	    }
+      Ω.hide();
+	  }
+    //apologies to @whtebkgrnd
 	},
 
 	//mashing
-  showWhiteBg: function(){
+  restoreColor: function(){
   	var canvasName = me.id + "_nobg";
   	var can = document.getElementById(canvasName);
   	me.style.cssText = can.style.cssText;
   	can.parentNode.removeChild(can);
   	Ω.show(me);
+  },
 
-  }
-    	
+
+  noBlack:  function(){
+  	me.crossOrigin = 'anonymous';
+		if(me.style.display !== "none"){
+			var can = document.createElement("canvas");
+			can.height = me.height;
+			can.width = me.width;
+			can.id = me.id + "_nobg";
+			can.style.cssText = me.style.cssText;
+			me.parentNode.appendChild(can);
+			can = can.getContext("2d");
+
+      can.drawImage( me, 0, 0 );
+      var data = can.getImageData( 0, 0, me.width, me.height );
+
+      for ( var i = 0; i < data.data.length; i += 4 ){
+      	if( data.data[i] + data.data[ i + 1 ] + data.data[ i + 2 ] < 111 ){
+      		data.data[ i + 3 ] = 0;
+      	}
+      }
+
+      can.putImageData(data, 0, 0);
+      Ω.hide(me);
+	    }
+	},
+
+  static:  function(){
+  		me.crossOrigin = 'anonymous';
+  		if(!document.getElementById(me.id + '_can')){
+				var can = document.createElement("canvas");
+				can.height = me.height;
+				can.width = me.width;
+				can.id = me.id + "_can";
+				can.style.cssText = me.style.cssText;
+				me.parentNode.appendChild(can);
+  		} else {
+  			can = document.getElementById(me.id + "_can");
+  		}
+			can = can.getContext("2d");
+      can.drawImage( me, 0, 0 );
+      var data = can.getImageData( 0, 0, me.width, me.height );
+  		var y = 0;
+			var crazify = function(){
+				Ω.hide();
+	    	if( y > 30 ){
+	    		window.clearInterval(interval);
+					var dataURL = can.toDataURL();
+					me.src = dataURL;
+					Ω.show();
+					can.parentNode.removeChild(can);
+	    	} else {
+	      	can.putImageData(data, 0, 0);
+		      for ( var i = 0; i < data.data.length; i += 4 ){
+		      	data.data[ i ] = data.data[i] + Math.ceil( Math.random() * 200 - 100);
+		      	data.data[ i + 1 ] = data.data[ i + 1 ] + Math.ceil( Math.random() * 200 - 100 );
+		      	data.data[ i + 2 ] = data.data[ i + 2 ] + Math.ceil( Math.random() * 200 - 100 );
+		      	// data.data[ i + 4 ]--;
+		      }
+      	}
+    	};
+    	crazify();
+	    var interval = window.setInterval(function(){y++; return crazify()}, 50);
+	},
+
 };
 
-Object.prototype.each = function (fn){
-	for( i = 0; i < me.length; i++ ){
-		fn(me[i]);
-	}
-};
-
-//shorthand 
 var me = Ω.prototype.obj;
