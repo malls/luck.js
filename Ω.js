@@ -12,7 +12,7 @@ var Ω = function(selector){
 	obj: null,
 
 	up: function(selector){
-		if(selector == undefined){
+		if(selector === undefined){
 			return window;
 		}else{
 			var args = Array.prototype.slice.call(arguments);
@@ -143,7 +143,7 @@ var Ω = function(selector){
 			}
 		}else{
 			for( i = 0; i < me.length; i++ ){
-			 	if( me[i].style.display != "none" ){
+				if( me[i].style.display != "none" ){
 
 					me[i].style.display = "none";
 				}else{
@@ -191,108 +191,131 @@ var Ω = function(selector){
 		return Ω;
 	},
 
+	mirror: function(){
+		if (
+			me.style.transform != "scaleX(-1)" &&
+	    me.style.mozTransform != "scaleX(-1)" &&
+	    me.style.oTransform != "scaleX(-1)" &&
+	    me.style.webkitTransform != "scaleX(-1)" &&
+	    me.style.transform != "scaleX(-1)" &&
+	    me.style.filter != "FlipH" &&
+	    me.style.msFilter != "FlipH"
+	   ){
+			me.style.transform = "scaleX(-1)" 
+	    me.style.mozTransform = "scaleX(-1)";
+	    me.style.oTransform = "scaleX(-1)";
+	    me.style.webkitTransform = "scaleX(-1)";
+	    me.style.transform = "scaleX(-1)";
+	    me.style.filter = "FlipH";
+	    me.style.msFilter = "FlipH";
+	  } else{
+	  	me.style.transform = 
+	    me.style.mozTransform = 
+	    me.style.oTransform = 
+	    me.style.webkitTransform = 
+	    me.style.transform = 
+	    me.style.filter = 
+	    me.style.msFilter = "";
+	  }
+
+	  return Ω;
+
+	},
+
 	//make each
 	noWhite:  function(){
 		me.crossOrigin = 'anonymous';
-		if(me.style.display !== "none"){
-			var can = document.createElement("canvas");
-			can.height = me.height;
-			can.width = me.width;
-			can.id = me.id + "_nobg";
-			can.style.cssText = me.style.cssText;
-			me.parentNode.appendChild(can);
-			can = can.getContext("2d");
+		var can = document.createElement("canvas");
+		can.height = me.height;
+		can.width = me.width;
+		can.id = me.id + "_nobg";
+		can.style.cssText = me.style.cssText;
+		me.parentNode.appendChild(can);
+		canv = can.getContext("2d");
 
-      can.drawImage( me, 0, 0 );
-      var data = can.getImageData( 0, 0, me.width, me.height );
+    canv.drawImage( me, 0, 0 );
+    var data = canv.getImageData( 0, 0, me.width, me.height );
 
-      for ( var i = 0; i < data.data.length; i += 4 ){
-      	if( data.data[i] + data.data[ i + 1 ] + data.data[ i + 2 ] > 720 ){
-      		data.data[ i + 3 ] = 0;
-      	} else if ( data.data[i] + data.data[ i + 1 ] + data.data[ i + 2 ] > 550 ){
-      		data.data[ i + 3 ] = 200;
-      	}
-      }
-
-      can.putImageData(data, 0, 0);
-      Ω.hide();
-	  }
-    //apologies to @whtebkgrnd
+    for ( var i = 0; i < data.data.length; i += 4 ){
+    	if( data.data[i] + data.data[ i + 1 ] + data.data[ i + 2 ] > 720 ){
+    		data.data[ i + 3 ] = 0;
+    	} else if ( data.data[i] + data.data[ i + 1 ] + data.data[ i + 2 ] > 550 ){
+    		data.data[ i + 3 ] = 200;
+    	}
+    }
+    canv.putImageData(data, 0, 0);
+		var dataURL = can.toDataURL();
+    me.src = dataURL;
+    can.parentNode.removeChild(can);
+    return Ω;
 	},
 
-	//mashing
-  restoreColor: function(){
-  	var canvasName = me.id + "_nobg";
-  	var can = document.getElementById(canvasName);
-  	me.style.cssText = can.style.cssText;
-  	can.parentNode.removeChild(can);
-  	Ω.show(me);
-  },
-
-
   noBlack:  function(){
-  	me.crossOrigin = 'anonymous';
-		if(me.style.display !== "none"){
-			var can = document.createElement("canvas");
-			can.height = me.height;
-			can.width = me.width;
-			can.id = me.id + "_nobg";
-			can.style.cssText = me.style.cssText;
-			me.parentNode.appendChild(can);
-			can = can.getContext("2d");
+		me.crossOrigin = 'anonymous';
+		var can = document.createElement("canvas");
+		can.height = me.height;
+		can.width = me.width;
+		can.id = me.id + "_nobg";
+		can.style.cssText = me.style.cssText;
+		me.parentNode.appendChild(can);
+		canv = can.getContext("2d");
 
-      can.drawImage( me, 0, 0 );
-      var data = can.getImageData( 0, 0, me.width, me.height );
+    canv.drawImage( me, 0, 0 );
+    var data = canv.getImageData( 0, 0, me.width, me.height );
 
-      for ( var i = 0; i < data.data.length; i += 4 ){
-      	if( data.data[i] + data.data[ i + 1 ] + data.data[ i + 2 ] < 111 ){
-      		data.data[ i + 3 ] = 0;
-      	}
-      }
+    for ( var i = 0; i < data.data.length; i += 4 ){
+    	if( data.data[i] + data.data[ i + 1 ] + data.data[ i + 2 ] < 111 ){
+    		data.data[ i + 3 ] = 0;
+    	}
+    }
 
-      can.putImageData(data, 0, 0);
-      Ω.hide(me);
-	    }
+    canv.putImageData(data, 0, 0);
+		var dataURL = can.toDataURL();
+    me.src = dataURL;
+    can.parentNode.removeChild(can);
+    return Ω;
 	},
 
   static:  function(){
-  		me.crossOrigin = 'anonymous';
-  		if(!document.getElementById(me.id + '_can')){
-				var can = document.createElement("canvas");
-				can.height = me.height;
-				can.width = me.width;
-				can.id = me.id + "_can";
-				can.style.cssText = me.style.cssText;
-				me.parentNode.appendChild(can);
-  		} else {
-  			can = document.getElementById(me.id + "_can");
-  		}
-			can = can.getContext("2d");
-      can.drawImage( me, 0, 0 );
-      var data = can.getImageData( 0, 0, me.width, me.height );
-  		var y = 0;
-			var crazify = function(){
-				Ω.hide();
-	    	if( y > 30 ){
-	    		window.clearInterval(interval);
-					var dataURL = can.toDataURL();
-					me.src = dataURL;
-					Ω.show();
-					can.parentNode.removeChild(can);
-	    	} else {
-	      	can.putImageData(data, 0, 0);
-		      for ( var i = 0; i < data.data.length; i += 4 ){
-		      	data.data[ i ] = data.data[i] + Math.ceil( Math.random() * 200 - 100);
-		      	data.data[ i + 1 ] = data.data[ i + 1 ] + Math.ceil( Math.random() * 200 - 100 );
-		      	data.data[ i + 2 ] = data.data[ i + 2 ] + Math.ceil( Math.random() * 200 - 100 );
-		      	// data.data[ i + 4 ]--;
-		      }
-      	}
-    	};
-    	crazify();
-	    var interval = window.setInterval(function(){y++; return crazify()}, 50);
+		me.crossOrigin = 'anonymous';
+		var can;
+		if(!document.getElementById(me.id + '_can')){
+			can = document.createElement("canvas");
+			can.height = me.height;
+			can.width = me.width;
+			can.id = me.id + "_can";
+			can.style.cssText = me.style.cssText;
+			me.parentNode.appendChild(can);
+		} else {
+			can = document.getElementById(me.id + "_can");
+		}
+		canv = can.getContext("2d");
+    canv.drawImage( me, 0, 0 );
+    var data = canv.getImageData( 0, 0, me.width, me.height );
+		var y = 0;
+		var crazify = function(){
+			Ω.hide();
+    	if( y > 30 ){
+    		window.clearInterval(interval);
+				var dataURL = can.toDataURL();
+				me.src = dataURL;
+				Ω.show();
+				can.parentNode.removeChild(can);
+    	} else {
+      	canv.putImageData(data, 0, 0);
+	      for ( var i = 0; i < data.data.length; i += 4 ){
+	      	data.data[ i ] = data.data[i] + Math.ceil( Math.random() * 200 - 100);
+	      	data.data[ i + 1 ] = data.data[ i + 1 ] + Math.ceil( Math.random() * 200 - 100 );
+	      	data.data[ i + 2 ] = data.data[ i + 2 ] + Math.ceil( Math.random() * 200 - 100 );
+	      }
+    	}
+  	};
+  	crazify();
+    var interval = window.setInterval(function(){y++; return crazify();}, 50);
 	},
 
 };
 
 var me = Ω.prototype.obj;
+
+//to do: update selection without using array prototype, come up with each method and apply to extant methods
