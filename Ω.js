@@ -76,11 +76,22 @@ var Ω = function(selector){
 
 	//functions
 
+	setBackground: function(url, options){
+		if(me instanceof Array){
+			for(var i = 0; i < input.length; i++){
+				me[i].style.background = "url('" + url + "') " + options;
+				console.log(me[i].style.background);
+			}
+		} else {
+			me.style.background = "url('" + url + "') " + options;
+		}
+		return Ω;
+	},
+	
 	draggable: function(){
 		me.draggable = true;
 		me.style.position = "absolute";
 		me.ondrag = function(e){
-			e.preventDefault();
 			var xpos = e.x - 15;
 			var ypos = e.y - 15;
 			me.style.left = Math.ceil(xpos) + "px";
@@ -103,7 +114,7 @@ var Ω = function(selector){
 		if( me[0] === undefined){
 			me.style.display = "none";
 		}else{
-			for( i = 0; i < me.length; i++ ){
+			for( var i = 0; i < me.length; i++ ){
 				me[i].style.display = "none";
 			}
 		}
@@ -114,20 +125,9 @@ var Ω = function(selector){
 		if( me[0] === undefined){
 			me.style.display = "";
 		}else{
-			for( i = 0; i < me.length; i++ ){
+			for( var i = 0; i < me.length; i++ ){
 			me[i].style.display = "";
 			}
-		}
-		return Ω;
-	},
-
-	setBackground: function(input){
-		if(input instanceof Array){
-			for(var i = 0; i < input.length; i++){
-				me[i].style.background = input;
-			}
-		} else {
-		me.style.background = input;
 		}
 		return Ω;
 	},
@@ -142,7 +142,7 @@ var Ω = function(selector){
 				return Ω;
 			}
 		}else{
-			for( i = 0; i < me.length; i++ ){
+			for( var i = 0; i < me.length; i++ ){
 				if( me[i].style.display != "none" ){
 
 					me[i].style.display = "none";
@@ -185,6 +185,7 @@ var Ω = function(selector){
 		me2.style = me.style;
 		me2.src = me.src;
 		me2.class = me.class;
+		me2.style = me.style;
 		me2.id = me.id + "_dupe";
 		me.parentNode.appendChild(me2);
 		me = me2;
@@ -217,9 +218,7 @@ var Ω = function(selector){
 	    me.style.filter = 
 	    me.style.msFilter = "";
 	  }
-
 	  return Ω;
-
 	},
 
 	//make each
@@ -292,6 +291,9 @@ var Ω = function(selector){
 		canv = can.getContext("2d");
     canv.drawImage( me, 0, 0 );
     var data = canv.getImageData( 0, 0, me.width, me.height );
+    console.log(me.width,"width");
+    console.log(me.height,"height");
+    console.log(data.data.length,"number of pixels");
 		var y = 0;
 		var crazify = function(){
 			Ω.hide();
@@ -301,6 +303,7 @@ var Ω = function(selector){
 				me.src = dataURL;
 				Ω.show();
 				can.parentNode.removeChild(can);
+				return Ω;
     	} else {
       	canv.putImageData(data, 0, 0);
 	      for ( var i = 0; i < data.data.length; i += 4 ){
