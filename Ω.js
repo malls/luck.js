@@ -1,9 +1,5 @@
 var Ω = function(selector){
-	if( selector === undefined ){
-		return window;
-	}else{
-		return _Ω.up(selector);
-	}
+	return _Ω.up(selector);
 };
 
 var _Ω = {
@@ -16,7 +12,10 @@ var _Ω = {
 		if(selector === undefined){
 			return window;
 		}else{
-			if( selector[0] === "." ){
+			if( selector.toElement ){
+				console.log('passes');
+				this.obj = selector.toElement;
+			}else if( selector[0] === "." ){
 				selector = selector.slice(1);
 				this.obj = document.getElementsByClassName(selector);
 			}else if( selector[0] === "#" ){
@@ -24,6 +23,8 @@ var _Ω = {
 				this.obj = document.getElementById(selector);
 			}else if( selector === document ){
 				return document;
+			}else if( selector === window ){
+				return window;
 			}else if( selector === 'body' ){
 				this.obj = document.body;
 			}else if( selector === 'html' ){
@@ -42,7 +43,7 @@ var _Ω = {
 			return fn(this.obj);
 		}else{
 			var len = this.obj.length;
-			for (var i = 0; i < len; i++){
+			for ( var i = 0; i < len; i++ ){
 				fn(this.obj[i]);
 			}
 		}
@@ -53,7 +54,7 @@ var _Ω = {
 	on: function(type, fn){
 		var _on = function(x){
 			var oldEvent = x['on' + type];
-			if(oldEvent){
+			if( oldEvent ){
 				x['on' + type] = function(e){
 					fn(e);
 					oldEvent(e);
@@ -71,11 +72,6 @@ var _Ω = {
 		return _Ω;
 	},
 
-	mouseover: function(fn){
-		this.on('mouseover', fn);
-		return _Ω;
-	},
-
 	drag: function(fn){
 		this.on('drag', fn);
 		return _Ω;
@@ -86,11 +82,22 @@ var _Ω = {
 		return _Ω;
 	},
 
+	mouseover: function(fn){
+		this.on('mouseover', fn);
+		return _Ω;
+	},
+
 	//DOM element methods
 
-	setBackground: function(url, options){
+	setBackground: function(color, url, options){
 		var _setBg = function(x){
-			x.style.background = "url('" + url + "') " + options;
+			x.style.background = color;
+			if(url){
+				x.style.background = color + " url('" + url + "')";
+			}
+			if(options){
+				x.style.background = color + " url('" + url + "') " + options;
+			}
 		};
 		this.loop(_setBg);
 		return _Ω;
