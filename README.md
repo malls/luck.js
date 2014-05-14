@@ -1,6 +1,19 @@
 #Ω.js
 
-Ω (opt-z on mac, alt-234 on pc) is a dependency-free DOM and image manipulation library. 
+Ω (opt-z on mac, alt-234 on pc) is a dependency-free DOM and image manipulation library in the style of jQuery.
+
+##Ready
+Initialize the page by wrapping your JavaScript within the ready function to ensure it doesn't run until the DOM is loaded.
+
+```
+Ω('document').ready(function(){
+  //all your js here
+});
+
+Ω().ready(function(){
+  //you can also leave out 'document'
+});
+```
 
 ##Selection
 Selection works like jQuery
@@ -11,7 +24,7 @@ Selection works like jQuery
 Ω('#id')
 ```
 
-Ω('document') returns document and Ω() and Ω('window') return window.
+The DOM selectors allow the following:
 
 ##Methods
 
@@ -65,15 +78,15 @@ Flips stuff.
 
 ##Image Methods
 
-##.noWhite()
+###.noWhite()
 
 Makes all white in an image transparent.
 
-##.noBlack()
+###.noBlack()
 
 Makes all black in an image transparent.
 
-##.static()
+###.static()
 
 Randomly adjusts each opaque pixel's color in an image for a few seconds, then stops when the image is fully turned to static.
 
@@ -114,14 +127,3 @@ Methods set are added cumulatively.
 ```
 
 No event delegation yet! Coming soon!
-
-
-
-
-
-
-
-
-
-
-

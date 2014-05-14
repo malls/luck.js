@@ -10,10 +10,9 @@ var _Ω = {
 
 	up: function(selector){
 		if(selector === undefined){
-			return window;
+			this.obj = document;
 		}else{
 			if( selector.toElement ){
-				console.log('passes');
 				this.obj = selector.toElement;
 			}else if( selector[0] === "." ){
 				selector = selector.slice(1);
@@ -22,9 +21,9 @@ var _Ω = {
 				selector = selector.slice(1);
 				this.obj = document.getElementById(selector);
 			}else if( selector === document ){
-				return document;
+				this.obj = document;
 			}else if( selector === window ){
-				return window;
+				this.obj = window;
 			}else if( selector === 'body' ){
 				this.obj = document.body;
 			}else if( selector === 'html' ){
@@ -34,6 +33,14 @@ var _Ω = {
 			}
 		}
 		return _Ω;
+	},
+
+	// force wait until DOM elements are loaded for js to run
+
+	ready: function(fn){
+		this.obj.addEventListener("DOMContentLoaded", function(){
+			fn();
+		});
 	},
 
 	//general method to iterate through selected elements and apply the method
