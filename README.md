@@ -11,8 +11,7 @@ Selection works like jQuery
 Ω('#id')
 ```
 
-Ω('document') returns document
-Ω() and Ω('window') return window
+Ω('document') returns document and Ω() and Ω('window') return window
 
 ##Events
 Events work like jQuery. For a list of supported events, see http://www.w3schools.com/tags/ref_eventattributes.asp
@@ -93,15 +92,15 @@ Totally removes element from the DOM.
 
 ###.thisObj()
 
-Returns the elemends selected by Ω.
+Returns the elements selected by Ω.
 
 ###.duplicate()
 
-Appends duplicates of the selected elements to the DOM with unique ID's
+Appends duplicates of the selected elements to the DOM with unique ID's.
 
 ###.mirro()
 
-Flips stuff
+Flips stuff.
 
 ##Image Methods
 
