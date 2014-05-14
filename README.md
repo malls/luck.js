@@ -11,46 +11,7 @@ Selection works like jQuery
 Ω('#id')
 ```
 
-Ω('document') returns document and Ω() and Ω('window') return window
-
-##Events
-Events work like jQuery. For a list of supported events, see http://www.w3schools.com/tags/ref_eventattributes.asp
-
-```
-Ω(selector).on(event, function);
-```
-
-click, drag, dragover, and mouseover have shorthand methods, because I needed them for something. 
-
-```
-Ω('button').click(function(e){
-  Ω('img').hide();
-});
-//sets all image display properties to "none"
-```
-To reference the DOM element calling the event, pass the event into a Ω selector.
-
-```
-Ω('img').on('mouseover', function(e){
-  Ω(e).noWhite();
-});
-// will remove all white from images on mouseover
-```
-
-Methods set are added cumulatively.
-
-```
-Ω('img').click(function(e){
-  Ω(e).mirror;
-});
-
-Ω('#someImageId').on('click', function(e){
-  Ω('#someImageId').draggable();
-});
-//when clicked, the referenced image will be both mirrored and draggable.
-```
-
-No event delegation yet! Coming soon!
+Ω('document') returns document and Ω() and Ω('window') return window.
 
 ##Methods
 
@@ -98,7 +59,7 @@ Returns the elements selected by Ω.
 
 Appends duplicates of the selected elements to the DOM with unique ID's.
 
-###.mirro()
+###.mirror()
 
 Flips stuff.
 
@@ -116,7 +77,43 @@ Makes all black in an image transparent.
 
 Randomly adjusts each opaque pixel's color in an image for a few seconds, then stops when the image is fully turned to static.
 
+##Events
+Events work like jQuery. For a list of supported events, see http://www.w3schools.com/tags/ref_eventattributes.asp
 
+```
+Ω(selector).on(event, function);
+```
+
+click, drag, dragover, and mouseover have shorthand methods, because I needed them for something. 
+
+```
+Ω('button').click(function(e){
+  Ω('img').hide();
+});
+//sets all image display properties to "none"
+```
+To reference the DOM element calling the event, pass the event into a Ω selector.
+
+```
+Ω('img').on('mouseover', function(e){
+  Ω(e).noWhite();
+});
+```
+
+Methods set are added cumulatively.
+
+```
+Ω('img').click(function(e){
+  Ω(e).mirror;
+});
+
+Ω('#someImageId').on('click', function(e){
+  Ω('#someImageId').draggable();
+});
+//when clicked, the referenced image will be both mirrored and draggable.
+```
+
+No event delegation yet! Coming soon!
 
 
 
