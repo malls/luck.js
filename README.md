@@ -30,6 +30,23 @@ The DOM selectors allow the following:
 
 Methods are mostly chainable and work for both single elements and groups of elements. 
 
+###.parent()
+Selects the parent node of the selector.
+
+###.child(number)
+Switch selector to its child nodes, or a specific child node if an integer argument is given.
+```
+<ol>
+  <li>First Item</li>
+  <li>Second Item</li>
+</ol>
+
+<script type="text/javascript">
+  Ω('ol').child(2).hide();
+</script>
+//hides '<li>Second Item</li>'
+```
+
 ###.setBackground(color, url, options)
 
 The second two arguements are optional, but options depend on am image url.

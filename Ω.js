@@ -12,24 +12,14 @@ var _Ω = {
 		if(selector === undefined){
 			this.obj = document;
 		}else{
-			if( selector.toElement ){
-				this.obj = selector.toElement;
-			}else if( selector[0] === "." ){
-				selector = selector.slice(1);
-				this.obj = document.getElementsByClassName(selector);
-			}else if( selector[0] === "#" ){
-				selector = selector.slice(1);
-				this.obj = document.getElementById(selector);
-			}else if( selector === document ){
+			if( selector === document ){
 				this.obj = document;
 			}else if( selector === window ){
 				this.obj = window;
-			}else if( selector === 'body' ){
-				this.obj = document.body;
-			}else if( selector === 'html' ){
-				this.obj = document.getElementsByTagName('html')[0];
-			}else{
-				this.obj = document.getElementsByTagName(selector);
+			}else if( document.querySelectorAll(selector).length > 1 ){
+				this.obj = document.querySelectorAll(selector);
+			} else {
+				this.obj = document.querySelector(selector);
 			}
 		}
 		return _Ω;
@@ -54,6 +44,22 @@ var _Ω = {
 				fn(this.obj[i]);
 			}
 		}
+	},
+
+	// parent and child selectors
+
+	parent: function(){
+		this.obj = this.obj.parentNode;
+		return _Ω;
+	},
+
+	child: function(x){
+		if(x){
+			this.obj = this.obj.childNodes[x - 1];
+		} else {
+			this.obj = this.obj.childNodes;
+		}
+		return _Ω;
 	},
 
 	//event listeners
