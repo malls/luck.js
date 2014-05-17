@@ -134,7 +134,7 @@ Methods set are added cumulatively.
 
 ```
 Ω('img').click(function(e){
-  Ω(e).mirror;
+  Ω(e).mirror();
 });
 
 Ω('#someImageId').on('click', function(e){
