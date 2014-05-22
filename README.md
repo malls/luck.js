@@ -93,6 +93,10 @@ Appends duplicates of the selected elements to the DOM with unique ID's.
 
 Flips stuff.
 
+###.zup() .zdown()
+
+Increment Z-index of an element up or down by one.
+
 ##Image Methods
 
 ###.noWhite()
