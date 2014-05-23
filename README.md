@@ -16,12 +16,20 @@ Initialize the page by wrapping your JavaScript within the ready function to ens
 ```
 
 ##Selection
-Selection works like jQuery
+Selection works like jQuery.
 
 ```
 Ω('tag')
 Ω(".class")
 Ω('#id')
+```
+
+You can also use shorthand methods for the standard tag DOM selectors
+
+```
+div()
+// is the same as 
+Ω('div')
 ```
 
 The DOM selectors allow the following:
@@ -31,7 +39,7 @@ The DOM selectors allow the following:
 Methods are mostly chainable and work for both single elements and groups of elements. 
 
 ###.parent()
-Selects the parent node of the selector.
+Switches selector to its parent node.
 
 ###.child(number)
 Switch selector to its child nodes, or a specific child node if an integer argument is given.

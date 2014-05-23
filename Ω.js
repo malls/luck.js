@@ -13,7 +13,7 @@
 		obj: null,
 
 		up: function(selector){
-			if(selector === undefined){
+			if(selector == undefined){
 				this.obj = document;
 			}else{
 				if( selector.toElement ){
@@ -108,6 +108,14 @@
 
 		//DOM element methods
 
+		append: function(element){
+			var _append = function(x){
+				x.appendChild(element);
+			};
+			this.loop(_append);
+			return _Ω;
+		},
+
 		setBackground: function(color, url, options){
 			var _setBg = function(x){
 				x.style.background = color;
@@ -139,6 +147,9 @@
 						};
 					};
 				} else {
+					x.ondragstart = function(e){
+						e.dataTransfer.setDragImage(this, -9999999999, -999999999);
+					};
 					x.ondrag = function(e){
 						var xpos = e.x - 15;
 						var ypos = e.y - 15;
@@ -289,7 +300,7 @@
 				can.id = x.id + "_nobg";
 				can.style.cssText = x.style.cssText;
 				x.parentNode.appendChild(can);
-				canv = can.getContext("2d");
+				var canv = can.getContext("2d");
 				canv.drawImage( x, 0, 0 );
 				var data = canv.getImageData( 0, 0, x.width, x.height );
 				for ( var i = 0; i < data.data.length; i += 4 ){
@@ -316,7 +327,7 @@
 				can.id = x.id + "_nobg";
 				can.style.cssText = x.style.cssText;
 				x.parentNode.appendChild(can);
-				canv = can.getContext("2d");
+				var canv = can.getContext("2d");
 				canv.drawImage( x, 0, 0 );
 				var data = canv.getImageData( 0, 0, x.width, x.height );
 				for ( var i = 0; i < data.data.length; i += 4 ){
@@ -343,7 +354,7 @@
 				can.id = x.id + "_can";
 				can.style.cssText = x.style.cssText;
 				x.parentNode.appendChild(can);
-				canv = can.getContext("2d");
+				var canv = can.getContext("2d");
 				canv.drawImage( x, 0, 0 );
 				var data = canv.getImageData( 0, 0, x.width, x.height );
 				var y = 0;
@@ -374,5 +385,54 @@
 	};
 
 	window.Ω = Ω;
+
+	window.a = function(){
+		return Ω('a');
+	};
+	window.b = function(){
+		return Ω('b');
+	};
+	window.body = function(){
+		return Ω('body');
+	};
+	window.button = function(){
+		return Ω('button');
+	};
+	window.canvas = function(){
+		return Ω('canvas');
+	};
+	window.div = function(){
+		return Ω('div');
+	};
+	window.form = function(){
+		return Ω('form');
+	};
+	window.html = function(){
+		return Ω('html');
+	};
+	window.i = function(){
+		return Ω('i');
+	};
+	window.iframe = function(){
+		return Ω('iframe');
+	};
+	window.img = function(){
+		return Ω('img');
+	};	
+	window.li = function(){
+		return Ω('li');
+	};
+	window.ol = function(){
+		return Ω('ol');
+	};
+	window.p = function(){
+		return Ω('p');
+	};
+	window.span = function(){
+		return Ω('span');
+	};
+	window.ul = function(){
+		return Ω('ul');
+	};
 
 })(window, document);
