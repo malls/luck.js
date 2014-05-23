@@ -13,7 +13,7 @@
 		obj: null,
 
 		up: function(selector){
-			if(selector == undefined){
+			if(selector === undefined){
 				this.obj = document;
 			}else{
 				if( selector.toElement ){
@@ -130,36 +130,61 @@
 			return _Ω;
 		},
 		
-		draggable: function(){
+		draggable: function(position){
+
 			var _draggable = function(x){
 				x.draggable = true;
-				x.style.position = "absolute";
-				var oldEvent = x.ondrag;
-				if(oldEvent){
-					x.ondrag = function(e){
-						var xpos = e.x - 15;
-						var ypos = e.y - 15;
-						x.style.left = Math.ceil(xpos) + "px";
-						x.style.top = Math.ceil(ypos) + "px";
-						oldEvent(e);
-						x.ondragover = function(e){
-							e.preventDefault();
-						};
+				x.style.position = 'absolute';
+				var oldStart = x.ondragstart;
+				var oldDrag = x.ondrag;
+				var oldOver = x.ondragover;
+				var offset = {x: 0, y: 0};
+
+				if(oldStart){
+					x.ondragstart = function(e){
+						e.dataTransfer.setDragImage(x, -9999999999, -999999999);
+						offset.x = e.x - x.offsetLeft;
+						offset.y = e.y - x.offsetTop;
+						oldStart(e);
 					};
 				} else {
 					x.ondragstart = function(e){
-						e.dataTransfer.setDragImage(this, -9999999999, -999999999);
-					};
-					x.ondrag = function(e){
-						var xpos = e.x - 15;
-						var ypos = e.y - 15;
-						x.style.left = Math.ceil(xpos) + "px";
-						x.style.top = Math.ceil(ypos) + "px";
-						x.ondragover = function(e){
-							e.preventDefault();
-						};
+						e.dataTransfer.setDragImage(x, -9999999999, -999999999);
+						offset.x = e.x - x.offsetLeft;
+						offset.y = e.y - x.offsetTop;
 					};
 				}
+
+				if(oldDrag){
+					x.ondrag = function(e){
+						var xpos = e.x;
+						var ypos = e.y;
+						x.style.left = Math.ceil(xpos) + "px";
+						x.style.top = Math.ceil(ypos) + "px";
+						oldDrag(e);
+					};
+				} else {
+					x.ondrag = function(e){
+						var xpos = e.x - offset.x;
+						var ypos = e.y - offset.y;
+						x.style.left = Math.ceil(xpos) + "px";
+						x.style.top = Math.ceil(ypos) + "px";
+					};
+				}
+
+				if(oldOver){
+					x.ondragover = function(e){
+						e.preventDefault();
+						oldOver(e);
+						return false;
+					};
+				} else {
+					x.ondragover = function(e){
+						e.preventDefault();
+						return false;
+					};
+				}
+
 			};
 			this.loop(_draggable);
 			return _Ω;

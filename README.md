@@ -93,6 +93,10 @@ Totally removes element from the DOM.
 
 Returns the elements selected by Ω.
 
+###.append([element])
+
+Appends element to the selector.
+
 ###.duplicate()
 
 Appends duplicates of the selected elements to the DOM with unique ID's.
