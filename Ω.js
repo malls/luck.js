@@ -16,8 +16,8 @@
 			if(selector === undefined){
 				this.obj = document;
 			}else{
-				if( selector.toElement ){
-					this.obj = selector.toElement;
+				if( selector.currentTarget ){
+					this.obj = selector.currentTarget;
 				}else if( selector === document ){
 					this.obj = document;
 				}else if( selector === window ){
@@ -143,30 +143,31 @@
 				if(oldStart){
 					x.ondragstart = function(e){
 						e.dataTransfer.setDragImage(x, -9999999999, -999999999);
-						offset.x = e.x - x.offsetLeft;
-						offset.y = e.y - x.offsetTop;
+						offset.x = e.clientX - x.offsetLeft;
+						offset.y = e.clientY - x.offsetTop;
 						oldStart(e);
 					};
 				} else {
 					x.ondragstart = function(e){
 						e.dataTransfer.setDragImage(x, -9999999999, -999999999);
-						offset.x = e.x - x.offsetLeft;
-						offset.y = e.y - x.offsetTop;
+						offset.x = e.clientX - x.offsetLeft;
+						offset.y = e.clientY - x.offsetTop;
 					};
 				}
 
 				if(oldDrag){
 					x.ondrag = function(e){
-						var xpos = e.x;
-						var ypos = e.y;
+						console.log(e);
+						var xpos = e.pageX;
+						var ypos = e.pageY;
 						x.style.left = Math.ceil(xpos) + "px";
 						x.style.top = Math.ceil(ypos) + "px";
 						oldDrag(e);
 					};
 				} else {
 					x.ondrag = function(e){
-						var xpos = e.x - offset.x;
-						var ypos = e.y - offset.y;
+						var xpos = e.pageX - offset.x;
+						var ypos = e.pageY - offset.y;
 						x.style.left = Math.ceil(xpos) + "px";
 						x.style.top = Math.ceil(ypos) + "px";
 					};
