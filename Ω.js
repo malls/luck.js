@@ -148,20 +148,20 @@
 					};
 				}
 
-				if (oldStart) {
+				// if (oldStart) {
+				// 	x.ondragstart = function (e) {
+				// 		e.dataTransfer.setDragImage(x, -9999999999, -999999999);
+				// 		offset.x = e.clientX - x.offsetLeft;
+				// 		offset.y = e.clientY - x.offsetTop;
+				// 		oldStart(e);
+				// 	};
+				// } else {
 					x.ondragstart = function (e) {
 						e.dataTransfer.setDragImage(x, -9999999999, -999999999);
 						offset.x = e.clientX - x.offsetLeft;
 						offset.y = e.clientY - x.offsetTop;
-						oldStart(e);
 					};
-				} else {
-					x.ondragstart = function (e) {
-						e.dataTransfer.setDragImage(x, -9999999999, -999999999);
-						offset.x = e.clientX - x.offsetLeft;
-						offset.y = e.clientY - x.offsetTop;
-					};
-				}
+				// }
 
 				if (oldDrag) {
 					x.ondrag = function (e) {
