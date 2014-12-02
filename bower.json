@@ -1,0 +1,15 @@
+{
+  "name": "luck",
+  "version": "0.0.1",
+  "main": "Ω.js",
+  "license": "MIT",
+  "ignore": [
+    "package.json"
+  ],
+  "keywords": [
+    "jquery",
+    "javascript",
+    "library",
+    "DOM"
+  ]
+}

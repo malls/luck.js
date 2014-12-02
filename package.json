@@ -1,0 +1,16 @@
+{
+  "name": "luck",
+  "version": "0.0.1",
+  "description": "DOM manipulation library",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/malls/luck.js.git"
+  },
+  "author": {
+    "name": "Forrest Almasi",
+    "email": "forrest.almasi@gmail.com"
+  },
+  "licenses": "MIT",
+  "main": "Ω.js",
+  "readmeFilename": "README.md"
+}
